@@ -5,6 +5,8 @@ import { getWorkflowsForUser } from "@/actions/workflows/getWorkflowsForUser";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { AlertCircle, InboxIcon } from "lucide-react";
 import CreateWorkflowDialog from "./_components/CreateWorkflowDialog";
+import { IWorkflow } from "@/schema/workflow";
+import WorkflowCard from "./_components/WorkflowCard";
 async function page() {
   await getWorkflowsForUser();
   return (
@@ -38,6 +40,7 @@ function UserWorkflowsSkeleton() {
 
 async function UserWorkflows() {
   const workflows = await getWorkflowsForUser();
+  console.log("workflows : ", workflows);
   if (!workflows) {
     return (
       <Alert variant="destructive">
@@ -49,7 +52,7 @@ async function UserWorkflows() {
       </Alert>
     );
   }
-  if (workflows.length === 0)
+  if (workflows.length === 0) {
     return (
       <div className=" flex flex-col gap-4 h-full items-center">
         <div className=" rounded-full bg-accent w-20 h-20 flex items-center justify-center">
@@ -64,6 +67,15 @@ async function UserWorkflows() {
         <CreateWorkflowDialog triggerText="Create your first workflow" />
       </div>
     );
+  }
+
+  return (
+    <div className=" grid grid-cols-1 gap-4">
+      {workflows?.map((workflow: IWorkflow) => (
+        <WorkflowCard key={workflow.id} workflow={workflow} />
+      ))}
+    </div>
+  );
 }
 
 export default page;

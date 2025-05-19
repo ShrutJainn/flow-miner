@@ -1,3 +1,4 @@
+import { WorkflowStatus } from "@/enums/workflow";
 import { z } from "zod";
 
 export const createWorkflowSchema = z.object({
@@ -6,3 +7,14 @@ export const createWorkflowSchema = z.object({
 });
 
 export type TCreateWorkflow = z.infer<typeof createWorkflowSchema>;
+
+export interface IWorkflow {
+  id: string;
+  name: string;
+  description: string;
+  definition: string;
+  userId: string;
+  status: WorkflowStatus;
+  createdAt: string;
+  updatedAt: string;
+}
