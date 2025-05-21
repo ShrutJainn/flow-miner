@@ -3,7 +3,7 @@
 import CustomDialogHeader from "@/components/CustomDialogHeader";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
-import { createWorkflowSchema, TCreateWorkflow } from "@/schema/workflow";
+import { createWorkflowSchema, TCreateWorkflow } from "@/types/workflow";
 import { Layers2Icon, Loader2 } from "lucide-react";
 import React, { useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -48,10 +48,13 @@ function CreateWorkflowDialog({ triggerText }: { triggerText?: string }) {
     [mutate]
   );
   return (
-    <Dialog open={open} onOpenChange={(open) => {
-      form.reset();
-      setOpen(open);
-    }}>
+    <Dialog
+      open={open}
+      onOpenChange={(open) => {
+        form.reset();
+        setOpen(open);
+      }}
+    >
       <DialogTrigger asChild>
         <Button>{triggerText ?? "Create workflow"}</Button>
       </DialogTrigger>

@@ -9,7 +9,9 @@ export async function getWorkflowsForUser() {
 
   const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
   try {
-    const { data } = await axios.get(`${baseUrl}/workflow?userId=${userId}`);
+    const { data } = await axios.get(
+      `${baseUrl}/workflow/user?userId=${userId}`
+    );
     return data;
   } catch (error) {
     console.log(error);

@@ -1,7 +1,7 @@
 "use server";
 
 import { WorkflowStatus } from "@/enums/workflow";
-import { createWorkflowSchema, TCreateWorkflow } from "@/schema/workflow";
+import { createWorkflowSchema, TCreateWorkflow } from "@/types/workflow";
 import { auth } from "@clerk/nextjs/server";
 import axios from "axios";
 import { redirect } from "next/navigation";

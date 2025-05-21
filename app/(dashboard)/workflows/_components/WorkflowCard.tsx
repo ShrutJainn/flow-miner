@@ -4,7 +4,7 @@ import { Button, buttonVariants } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { WorkflowStatus } from "@/enums/workflow";
 import { cn } from "@/lib/utils";
-import { IWorkflow } from "@/schema/workflow";
+import { IWorkflow } from "@/types/workflow";
 import {
   FileTextIcon,
   MoreVertical,
