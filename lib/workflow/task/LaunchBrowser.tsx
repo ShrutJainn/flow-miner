@@ -1,4 +1,4 @@
-import { TaskType } from "@/enums/task";
+import { TaskParamType, TaskType } from "@/enums/task";
 import type { LucideProps } from "lucide-react";
 import { GlobeIcon } from "lucide-react";
 
@@ -10,4 +10,13 @@ export const LaunchBrowserTask = {
   ),
 
   isEntryPoint: true,
+  inputs: [
+    {
+      name: "Website Url",
+      type: TaskParamType.STRING,
+      helperText: "eg: https://www.google.com",
+      requried: true,
+      hideHandle: true,
+    },
+  ],
 };
