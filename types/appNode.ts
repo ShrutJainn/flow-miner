@@ -24,4 +24,5 @@ export interface IParamProps {
   param: ITaskParam;
   value: string;
   updateNodeParamValue: (newValue: string) => void;
+  disabled?: boolean;
 }
