@@ -1,4 +1,5 @@
 import { TaskParamType, TaskType } from "@/enums/task";
+import { TWorkflowTask } from "@/enums/workflow";
 import type { LucideProps } from "lucide-react";
 import { TextIcon } from "lucide-react";
 
@@ -8,7 +9,8 @@ export const ExtractTextFromElementTask = {
   icon: (props: LucideProps) => (
     <TextIcon className="stroke-rose-400" {...props} />
   ),
-
+  isEntryPoint: false,
+  credits: 2,
   inputs: [
     {
       name: "Html",
@@ -28,4 +30,4 @@ export const ExtractTextFromElementTask = {
       type: TaskParamType.STRING,
     },
   ],
-};
+} satisfies TWorkflowTask;

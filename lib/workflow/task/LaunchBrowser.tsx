@@ -1,4 +1,5 @@
 import { TaskParamType, TaskType } from "@/enums/task";
+import { TWorkflowTask } from "@/enums/workflow";
 import type { LucideProps } from "lucide-react";
 import { GlobeIcon } from "lucide-react";
 
@@ -10,6 +11,7 @@ export const LaunchBrowserTask = {
   ),
 
   isEntryPoint: true,
+  credits: 5,
   inputs: [
     {
       name: "Website Url",
@@ -25,4 +27,4 @@ export const LaunchBrowserTask = {
       type: TaskParamType.BROWSER_INSTANCE,
     },
   ],
-};
+} satisfies TWorkflowTask;
