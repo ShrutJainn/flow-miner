@@ -26,3 +26,8 @@ export interface IParamProps {
   updateNodeParamValue: (newValue: string) => void;
   disabled?: boolean;
 }
+
+export type TAppNodeMissingInputs = {
+  nodeId: string;
+  inputs: string[];
+};

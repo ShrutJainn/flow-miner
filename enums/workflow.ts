@@ -18,7 +18,9 @@ export type TWorkflowTask = {
   credits: number;
 };
 
-export type TWorkflowExecutionPlan = {
+export type TWorkflowExecutionPlanPhase = {
   phase: number;
   nodes: IAppNode[];
 };
+
+export type TWorkflowExecutionPlan = TWorkflowExecutionPlanPhase[];

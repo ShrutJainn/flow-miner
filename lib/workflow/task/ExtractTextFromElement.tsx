@@ -15,13 +15,13 @@ export const ExtractTextFromElementTask = {
     {
       name: "Html",
       type: TaskParamType.STRING,
-      requried: true,
+      required: true,
       variant: "textarea",
     },
     {
       name: "Selector",
       type: TaskParamType.STRING,
-      requried: true,
+      required: true,
     },
   ],
   outputs: [
