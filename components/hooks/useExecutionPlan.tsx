@@ -19,7 +19,7 @@ const useExecutionPlan = () => {
           break;
         case TFlowToExecutionPlanValidationError.INVALID_INPUTS:
           toast.error("Not all input values are set");
-          setInvalidInputs(error.invalidInputs);
+          setInvalidInputs(error.invalidElements);
           break;
         default:
           toast.error("Something went wrong");

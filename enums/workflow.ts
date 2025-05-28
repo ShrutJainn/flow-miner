@@ -8,6 +8,21 @@ export enum WorkflowStatus {
   PUBLISHED = "PUBLISHED",
 }
 
+export enum WorkflowExecutionStatus {
+  PENDING = "PENDING",
+  RUNNING = "RUNNING",
+  COMPLETE = "COMPLETED",
+  FAILED = "FAILED",
+}
+
+export enum ExecutionPhaseStatus {
+  CREATED = "CREATED",
+  PENDING = "PENDING",
+  RUNNING = "RUNNING",
+  COMPLETE = "COMPLETED",
+  FAILED = "FAILED",
+}
+
 export type TWorkflowTask = {
   label: string;
   icon: React.FC<LucideProps>;
