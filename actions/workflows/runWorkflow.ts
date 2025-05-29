@@ -1,6 +1,7 @@
 "use server";
 
 import { TWorkflowExecutionPlan } from "@/enums/workflow";
+import { ExecuteWorkflow } from "@/lib/workflow/executeWorkflow";
 import { TaskRegistry } from "@/lib/workflow/task/registry";
 import { auth } from "@clerk/nextjs/server";
 import axios from "axios";
@@ -26,11 +27,10 @@ export async function RunWorkflow(form: {
   );
 
   if (data.error) throw new Error("Flow definition not valid");
-  // if (!data.executionPlan) throw new Error("No execution plan generated");
 
-  // executionPlan = data.executionPlan;
-  // console.log("execution plan : ", executionPlan);
   if (!data) throw new Error("Workflow Execution not created");
   const { workflowExecutionId, phases } = data;
+
+  ExecuteWorkflow(workflowExecutionId);
   redirect(`/workflow/runs/${workflowId}/${workflowExecutionId}`);
 }

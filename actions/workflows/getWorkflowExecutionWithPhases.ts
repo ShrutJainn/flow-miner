@@ -7,12 +7,6 @@ export async function GetWorkflowExecutionWithPhases(executionId: string) {
   const { userId } = auth();
   if (!userId) throw new Error("unauthenticated");
 
-  console.log("id : ", executionId);
-  console.log(
-    "url : ",
-    `${process.env.NEXT_PUBLIC_API_BASE_URL}/workflow/execution/${executionId}`
-  );
-
   const response = await axios.get(
     `${process.env.NEXT_PUBLIC_API_BASE_URL}/workflow/execution/${executionId}`
   );

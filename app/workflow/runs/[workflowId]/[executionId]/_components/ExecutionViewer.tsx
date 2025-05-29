@@ -1,8 +1,13 @@
 "use client";
 
 import { GetWorkflowExecutionWithPhases } from "@/actions/workflows/getWorkflowExecutionWithPhases";
+import { GetWorkflowPhaseDetails } from "@/actions/workflows/getWorkflowPhaseDetails";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { WorkflowExecutionStatus } from "@/enums/workflow";
+import { DatesToDurationString } from "@/lib/helper/dates";
+import { GetPhasesTotalCost } from "@/lib/helper/phases";
 import { useQuery } from "@tanstack/react-query";
 import { formatDistanceToNow } from "date-fns";
 import {
@@ -10,11 +15,12 @@ import {
   CircleDashedIcon,
   ClockIcon,
   CoinsIcon,
+  Loader2Icon,
   LucideIcon,
   LucideProps,
   WorkflowIcon,
 } from "lucide-react";
-import React, { ReactNode } from "react";
+import React, { ReactNode, useState } from "react";
 
 type ExecutionData = Awaited<ReturnType<typeof GetWorkflowExecutionWithPhases>>;
 
@@ -23,6 +29,7 @@ type ExecutionData = Awaited<ReturnType<typeof GetWorkflowExecutionWithPhases>>;
 //   phases: any;
 // };
 function ExecutionViewer({ initialData }: { initialData: ExecutionData }) {
+  const [selectedPhase, setSelectedPhase] = useState<string | null>(null);
   const query = useQuery({
     queryKey: ["execution", initialData.workflowExecution?.id],
     initialData,
@@ -33,6 +40,24 @@ function ExecutionViewer({ initialData }: { initialData: ExecutionData }) {
         ? 1000
         : false,
   });
+
+  const phaseDetails = useQuery({
+    queryKey: ["phaseDetails", selectedPhase],
+    enabled: selectedPhase !== null,
+    queryFn: () => GetWorkflowPhaseDetails(selectedPhase),
+  });
+
+  console.log("phase id : ", selectedPhase);
+
+  const isRunning =
+    query.data?.workflowExecution.status === WorkflowExecutionStatus.RUNNING;
+
+  const duration = DatesToDurationString(
+    query.data?.workflowExecution.completedAt,
+    query.data?.workflowExecution.startedAt
+  );
+
+  const creditsConsumed = GetPhasesTotalCost(query.data?.phases || []);
   return (
     <div className=" flex w-full h-full">
       <aside className=" w-[440px] min-w-[440px] max-w-[440px] border-r-2 border-separate flex flex-grow flex-col overflow-hidden">
@@ -60,11 +85,21 @@ function ExecutionViewer({ initialData }: { initialData: ExecutionData }) {
               </span>
             }
           />
-          <ExecutionLabel icon={ClockIcon} label="Duration" value="todo" />
+          <ExecutionLabel
+            icon={ClockIcon}
+            label="Duration"
+            value={
+              duration ? (
+                duration
+              ) : (
+                <Loader2Icon className=" animate-spin" size={20} />
+              )
+            }
+          />
           <ExecutionLabel
             icon={CoinsIcon}
             label="Credits consumed"
-            value="todo"
+            value={creditsConsumed}
           />
         </div>
         <Separator />
@@ -75,7 +110,29 @@ function ExecutionViewer({ initialData }: { initialData: ExecutionData }) {
           </div>
         </div>
         <Separator />
+        <div className=" overflow-auto h-full px-2 py-4">
+          {query.data?.phases.map((phase: any, index: any) => (
+            <Button
+              variant={selectedPhase === phase.id ? "secondary" : "ghost"}
+              key={phase.id}
+              className=" w-full justify-between flex"
+              onClick={() => {
+                if (isRunning) return;
+                setSelectedPhase(phase.id);
+              }}
+            >
+              <div className=" flex items-center gap-2">
+                <Badge variant={"outline"}>{index + 1}</Badge>
+                <p className=" font-semibold">{phase.name}</p>
+              </div>
+              <p className=" text-xs text-muted-foreground">{phase.status}</p>
+            </Button>
+          ))}
+        </div>
       </aside>
+      <div className=" flex w-full h-full">
+        <pre>{JSON.stringify(phaseDetails.data, null, 4)}</pre>
+      </div>
     </div>
   );
 }
