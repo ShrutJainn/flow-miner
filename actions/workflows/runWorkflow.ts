@@ -18,7 +18,7 @@ export async function RunWorkflow(form: {
   let executionPlan: TWorkflowExecutionPlan;
 
   const { data } = await axios.post(
-    `${process.env.NEXT_PUBLIC_API_BASE_URL}/workflow/generate-plan`,
+    `${process.env.NEXT_PUBLIC_API_BASE_URL}/workflow-execution/execute`,
     {
       workflowId,
       userId,
@@ -26,11 +26,12 @@ export async function RunWorkflow(form: {
     }
   );
 
-  if (data.error) throw new Error("Flow definition not valid");
+  // if (data.error) throw new Error("Flow definition not valid");
 
-  if (!data) throw new Error("Workflow Execution not created");
-  const { workflowExecutionId, phases } = data;
+  // if (!data) throw new Error("Workflow Execution not created");
+  const workflowExecutionId = data;
+  console.log("data : ", data);
 
-  ExecuteWorkflow(workflowExecutionId);
+  // ExecuteWorkflow(workflowExecutionId, workflowId, userId, flowDefinition);
   redirect(`/workflow/runs/${workflowId}/${workflowExecutionId}`);
 }

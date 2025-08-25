@@ -30,6 +30,9 @@ function ExecuteButton({ workflowId }: { workflowId: string }) {
       className=" flex items-center gap-2"
       onClick={() => {
         const plan = generate();
+
+        console.log("Plan from frontend : ", plan);
+
         if (!plan) {
           // Client side validation
           return;
