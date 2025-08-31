@@ -30,6 +30,7 @@ import {
 } from "lucide-react";
 import React, { ReactNode, useState } from "react";
 import PhaseStatusBadge from "./PhaseStatusBadge";
+import { TaskRegistry } from "@/lib/workflow/task/registry";
 
 type ExecutionData = Awaited<ReturnType<typeof GetWorkflowExecutionWithPhases>>;
 
@@ -68,6 +69,7 @@ function ExecutionViewer({ initialData }: { initialData: ExecutionData }) {
   console.log("phase details : ", phaseDetails);
 
   const creditsConsumed = GetPhasesTotalCost(query.data?.phases || []);
+  // const creditsConsumed = TaskRegistry[query.data.phase]
   return (
     <div className=" flex w-full h-full">
       <aside className=" w-[440px] min-w-[440px] max-w-[440px] border-r-2 border-separate flex flex-grow flex-col overflow-hidden">
@@ -109,7 +111,8 @@ function ExecutionViewer({ initialData }: { initialData: ExecutionData }) {
           <ExecutionLabel
             icon={CoinsIcon}
             label="Credits consumed"
-            value={creditsConsumed}
+            //@ts-ignore
+            value={phaseDetails.creditsCost}
           />
         </div>
         <Separator />
@@ -162,7 +165,7 @@ function ExecutionViewer({ initialData }: { initialData: ExecutionData }) {
                   <CoinsIcon size={18} className=" stroke-muted-foreground" />
                   <span>Credits</span>
                 </div>
-                <span>TODO</span>
+                <span>{phaseDetails.data.creditsCost}</span>
               </Badge>
               <Badge variant={"outline"} className="space-x-4">
                 <div className=" flex gap-1 items-center">

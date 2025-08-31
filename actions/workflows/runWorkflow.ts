@@ -1,8 +1,6 @@
 "use server";
 
 import { TWorkflowExecutionPlan } from "@/enums/workflow";
-import { ExecuteWorkflow } from "@/lib/workflow/executeWorkflow";
-import { TaskRegistry } from "@/lib/workflow/task/registry";
 import { auth } from "@clerk/nextjs/server";
 import axios from "axios";
 import { redirect } from "next/navigation";
@@ -14,24 +12,25 @@ export async function RunWorkflow(form: {
   const { workflowId, flowDefinition } = form;
   const { userId } = auth();
   if (!userId) throw new Error("Unauthorized");
+  try {
+    const { data } = await axios.post(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/workflow-execution/execute`,
+      {
+        workflowId,
+        userId,
+        flowDefinition,
+      }
+    );
 
-  let executionPlan: TWorkflowExecutionPlan;
+    const workflowExecutionId = data;
+    console.log("data : ", data);
 
-  const { data } = await axios.post(
-    `${process.env.NEXT_PUBLIC_API_BASE_URL}/workflow-execution/execute`,
-    {
-      workflowId,
-      userId,
-      flowDefinition,
-    }
-  );
+    // redirect(`/workflow/runs/${workflowId}/${workflowExecutionId}`);
+    return { workflowExecutionId: data };
+  } catch (err: any) {
+    const errorMessage =
+      err.response?.data?.error || err.message || "Something went wrong";
 
-  // if (data.error) throw new Error("Flow definition not valid");
-
-  // if (!data) throw new Error("Workflow Execution not created");
-  const workflowExecutionId = data;
-  console.log("data : ", data);
-
-  // ExecuteWorkflow(workflowExecutionId, workflowId, userId, flowDefinition);
-  redirect(`/workflow/runs/${workflowId}/${workflowExecutionId}`);
+    throw new Error(errorMessage);
+  }
 }
