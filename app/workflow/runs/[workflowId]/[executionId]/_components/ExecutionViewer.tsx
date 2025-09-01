@@ -69,7 +69,7 @@ function ExecutionViewer({ initialData }: { initialData: ExecutionData }) {
   console.log("phase details : ", phaseDetails);
 
   const creditsConsumed = GetPhasesTotalCost(query.data?.phases || []);
-  // const creditsConsumed = TaskRegistry[query.data.phase]
+  console.log("total credits consumed : ", creditsConsumed);
   return (
     <div className=" flex w-full h-full">
       <aside className=" w-[440px] min-w-[440px] max-w-[440px] border-r-2 border-separate flex flex-grow flex-col overflow-hidden">
@@ -111,8 +111,7 @@ function ExecutionViewer({ initialData }: { initialData: ExecutionData }) {
           <ExecutionLabel
             icon={CoinsIcon}
             label="Credits consumed"
-            //@ts-ignore
-            value={phaseDetails.creditsCost}
+            value={creditsConsumed}
           />
         </div>
         <Separator />
