@@ -28,8 +28,11 @@ export async function RunWorkflow(form: {
     // redirect(`/workflow/runs/${workflowId}/${workflowExecutionId}`);
     return { workflowExecutionId: data };
   } catch (err: any) {
+    console.log("error : ", err);
     const errorMessage =
-      err.response?.data?.error || err.message || "Something went wrong";
+      JSON.parse(err.response?.data?.error)?.error ||
+      err.message ||
+      "Something went wrong";
 
     throw new Error(errorMessage);
   }
