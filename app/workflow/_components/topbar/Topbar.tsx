@@ -8,20 +8,25 @@ import React from "react";
 import SaveButton from "./SaveButton";
 import ExecuteButton from "./ExecuteButton";
 import NavigationTabs from "./NavigationTabs";
+import PublishButton from "./PublishButton";
+import UnpublishButton from "./UnpublishButton";
 
 interface ITopbarProps {
   title: string;
   subtitle?: string;
   workflowId: string;
   hideButtons?: boolean;
+  isPublished?: boolean;
 }
 function Topbar({
   title,
   subtitle,
   workflowId,
   hideButtons = false,
+  isPublished = false,
 }: ITopbarProps) {
   const router = useRouter();
+  console.log("is published : ", isPublished);
   return (
     <header className=" flex p-2 border-b-2 border-separate justify-between w-full h-[60px] sticky top-0 bg-background z-10">
       <div className=" flex flex-1 gap-1">
@@ -44,7 +49,13 @@ function Topbar({
         {!hideButtons && (
           <>
             <ExecuteButton workflowId={workflowId} />
-            <SaveButton workflowId={workflowId} />
+            {isPublished && <UnpublishButton workflowId={workflowId} />}
+            {!isPublished && (
+              <>
+                <SaveButton workflowId={workflowId} />
+                <PublishButton workflowId={workflowId} />
+              </>
+            )}
           </>
         )}
       </div>

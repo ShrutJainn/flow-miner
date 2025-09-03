@@ -25,7 +25,6 @@ export async function RunWorkflow(form: {
     const workflowExecutionId = data;
     console.log("data : ", data);
 
-    // redirect(`/workflow/runs/${workflowId}/${workflowExecutionId}`);
     return { workflowExecutionId: data };
   } catch (err: any) {
     console.log("error : ", err);
