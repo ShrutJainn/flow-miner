@@ -1,4 +1,4 @@
-import { WorkflowStatus } from "@/enums/workflow";
+import { WorkflowExecutionStatus, WorkflowStatus } from "@/enums/workflow";
 import { z } from "zod";
 
 export const createWorkflowSchema = z.object({
@@ -17,4 +17,16 @@ export interface IWorkflow {
   status: WorkflowStatus;
   createdAt: string;
   updatedAt: string;
+  creditsCost: number;
+  cron: string | null;
+  lastRunAt: string;
+  lastRunStatus: WorkflowExecutionStatus;
+  lastRunId: string;
+  nextRunAt: string;
 }
+
+export const duplicateWorkflowSchema = createWorkflowSchema.extend({
+  workflowId: z.string(),
+});
+
+export type TDuplicateWorkflowSchema = z.infer<typeof duplicateWorkflowSchema>;

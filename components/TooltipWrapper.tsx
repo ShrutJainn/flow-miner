@@ -14,6 +14,7 @@ interface ITooltipProps {
   side?: "top" | "bottom" | "left" | "right";
 }
 function TooltipWrapper(props: ITooltipProps) {
+  if (!props.content) return props.children;
   return (
     <TooltipProvider delayDuration={0}>
       <Tooltip>
