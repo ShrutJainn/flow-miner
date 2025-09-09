@@ -19,11 +19,9 @@ function ExecuteButton({ workflowId }: { workflowId: string }) {
     onSuccess: (data) => {
       toast.success("Execution started", { id: "flow-execution" });
 
-      // navigate client-side instead of using redirect() in server action
       router.push(`/workflow/runs/${workflowId}/${data.workflowExecutionId}`);
     },
     onError: (error: any) => {
-      // toast.error("Something went wrong", { id: "flow-execution" });
       toast.error(error.message, { id: "flow-execution" });
     },
   });
@@ -36,12 +34,11 @@ function ExecuteButton({ workflowId }: { workflowId: string }) {
       onClick={() => {
         const plan = generate();
 
-        console.log("Plan from frontend : ", plan);
-
         if (!plan) {
           // Client side validation
           return;
         }
+        console.log("flow definition : ", toObject());
         const data = mutation.mutate({
           workflowId,
           flowDefinition: JSON.stringify(toObject()),
