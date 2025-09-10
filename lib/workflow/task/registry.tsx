@@ -5,6 +5,7 @@ import { PageToHtmlTask } from "./PageToHtml";
 import { TWorkflowTask } from "@/enums/workflow";
 import { FillInputTask } from "./FillInput";
 import { ClickElementTask } from "./ClickElement";
+import { DeliverViaWebhookTask } from "./DeliverViaWebhook";
 
 type TRegistry = {
   [K in TaskType]: TWorkflowTask & { type: K };
@@ -15,4 +16,5 @@ export const TaskRegistry: TRegistry = {
   EXTRACT_TEXT_FROM_ELEMENT: ExtractTextFromElementTask,
   FILL_INPUT: FillInputTask,
   CLICK_ELEMENT: ClickElementTask,
+  DELIVER_VIA_WEBHOOK: DeliverViaWebhookTask,
 };

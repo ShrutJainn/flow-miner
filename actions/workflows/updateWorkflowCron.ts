@@ -23,5 +23,4 @@ export async function updateWorkflowCron({
     }
   );
   revalidatePath(`/workflows`);
-  console.log("data returned after cron : ", data);
 }

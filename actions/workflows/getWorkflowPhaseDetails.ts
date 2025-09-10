@@ -13,6 +13,5 @@ export async function GetWorkflowPhaseDetails(phaseId: string | null) {
     `${process.env.NEXT_PUBLIC_API_BASE_URL}/execution/phaseDetails/${phaseId}`
   );
 
-  console.log("data from backend : ", data);
   return data;
 }

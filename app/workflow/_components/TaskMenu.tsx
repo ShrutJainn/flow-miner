@@ -14,7 +14,7 @@ function TaskMenu() {
   return (
     <aside className=" w-[340px] min-w-[340px] max-w-[340px] border-r-2 border-separate h-full p-2 px-4 overflow-auto">
       <Accordion
-        defaultValue={["extraction", "interactions"]}
+        defaultValue={["extraction", "interactions", "results"]}
         type="multiple"
         className=" w-full"
       >
@@ -34,6 +34,14 @@ function TaskMenu() {
           <AccordionContent className=" flex flex-col gap-1">
             <TaskMenuBtn taskType={TaskType.PAGE_TO_HTML} />
             <TaskMenuBtn taskType={TaskType.EXTRACT_TEXT_FROM_ELEMENT} />
+          </AccordionContent>
+        </AccordionItem>
+        <AccordionItem value="results">
+          <AccordionTrigger className=" font-bold">
+            Result delivery
+          </AccordionTrigger>
+          <AccordionContent className=" flex flex-col gap-1">
+            <TaskMenuBtn taskType={TaskType.DELIVER_VIA_WEBHOOK} />
           </AccordionContent>
         </AccordionItem>
       </Accordion>
