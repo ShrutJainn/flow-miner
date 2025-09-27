@@ -16,11 +16,11 @@ import { Sheet, SheetContent, SheetTrigger } from "./ui/sheet";
 import UserAvailableCreditsBadge from "./UserAvailableCreditsBadge";
 
 const routes = [
-  {
-    href: "/",
-    label: "Home",
-    icon: HomeIcon,
-  },
+  // {
+  //   href: "/",
+  //   label: "Home",
+  //   icon: HomeIcon,
+  // },
   {
     href: "workflows",
     label: "Workflows",
