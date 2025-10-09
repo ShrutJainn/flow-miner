@@ -14,8 +14,34 @@ import { CreditsPack, PackId } from "@/types/billing";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
+import { useMutation } from "@tanstack/react-query";
+import { purchaseCredits } from "@/actions/billing/purchaseCredits";
+import { loadStripe } from "@stripe/stripe-js";
+
+const stripePromise = loadStripe(
+  process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!
+);
 
 function CreditsPurchase() {
+  const mutation = useMutation({
+    mutationFn: purchaseCredits,
+    onSuccess: async (data) => {
+      const stripe = await stripePromise;
+      if (!stripe) {
+        console.error("Stripe failed to load");
+        return;
+      }
+
+      const result = await stripe.redirectToCheckout({
+        sessionId: data.sessionId,
+      });
+
+      if (result.error) {
+        console.error("Stripe redirect error:", result.error.message);
+      }
+    },
+    onError: () => {},
+  });
   const [selectedPack, setSelectedPack] = useState(PackId.MEDIUM);
   return (
     <Card>
@@ -52,7 +78,11 @@ function CreditsPurchase() {
         </RadioGroup>
       </CardContent>
       <CardFooter>
-        <Button className=" w-full">
+        <Button
+          className=" w-full"
+          disabled={mutation.isPending}
+          onClick={() => mutation.mutate(selectedPack)}
+        >
           <CreditCard className=" mr-2 h-5 w-5" /> Purchase credits
         </Button>
       </CardFooter>
